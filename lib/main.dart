@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'core/theme/app_theme.dart';
 import 'presentation/screens/splash_screen.dart';
+import 'presentation/screens/auth/auth_screen.dart';
+import 'presentation/screens/main_nav.dart';
+import 'presentation/screens/onboarding_screen.dart';
 
 /// Premium Vehixly App Entry Point
 /// Features luxury design with white, black, and electric blue theme
@@ -36,6 +39,13 @@ class VehixlyApp extends StatelessWidget {
 
       // Start with splash screen
       home: const SplashScreen(),
+
+      // App routes
+      routes: {
+        '/onboarding': (context) => const OnboardingScreen(),
+        '/auth': (context) => const AuthScreen(),
+        '/main': (context) => const MainNavScreen(),
+      },
 
       // Custom scroll behavior for smooth interactions
       scrollBehavior: const ScrollBehavior().copyWith(overscroll: false),
