@@ -267,7 +267,10 @@ class OnboardingScreen extends StatelessWidget {
     // TODO: Navigate to Sign Up screen
     //move to login no debug print real logic
     debugPrint('Navigate to Sign Up');
-    Navigator.push(context, MaterialPageRoute(builder: (context) => AuthScreen()));
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => AuthScreen()),
+    );
   }
 
   void _navigateToLogin(BuildContext context) {
