@@ -157,7 +157,7 @@ class _SplashScreenState extends State<SplashScreen>
 
                   // Animated Logo Container
                   AnimatedBuilder(
-                    animation: _logoAnimation,
+                    animation: _logoController,
                     builder: (context, child) {
                       return Transform.scale(
                         scale: _logoScaleAnimation.value,
@@ -222,7 +222,7 @@ class _SplashScreenState extends State<SplashScreen>
 
                   // Animated App Name and Tagline
                   AnimatedBuilder(
-                    animation: _textAnimation,
+                    animation: _textController,
                     builder: (context, child) {
                       return Transform.translate(
                         offset: Offset(0, _textSlideAnimation.value),
@@ -321,8 +321,4 @@ class _SplashScreenState extends State<SplashScreen>
       ),
     );
   }
-
-  // Helper getters for cleaner code
-  Animation<double> get _logoAnimation => _logoController;
-  Animation<double> get _textAnimation => _textController;
 }

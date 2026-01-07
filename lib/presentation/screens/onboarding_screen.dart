@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:vibration/vibration.dart';
 import 'package:vehixly/presentation/screens/auth/auth_screen.dart';
+import 'package:vehixly/presentation/screens/main_nav.dart';
 import '../../core/theme/app_theme.dart';
 
 /// Premium Onboarding Screen for Vehixly
@@ -11,9 +14,6 @@ class OnboardingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mq = MediaQuery.of(context);
-    final isDesktop = mq.size.width > 600;
-
     return Scaffold(
       backgroundColor: AppTheme.primaryWhite,
       body: AnnotatedRegion<SystemUiOverlayStyle>(
@@ -91,7 +91,7 @@ class OnboardingScreen extends StatelessWidget {
           const SizedBox(width: 14),
           // Logo Text
           Text(
-            'TURBO',
+            'VEHIXLY',
             style: TextStyle(
               fontSize: isDesktop ? 24 : 22,
               fontWeight: FontWeight.w800,
@@ -107,29 +107,55 @@ class OnboardingScreen extends StatelessWidget {
 
   Widget _buildHeroIllustration(bool isDesktop) {
     final imageHeight = isDesktop ? 300.0 : 260.0;
+    const imageUrl =
+        'https://lh3.googleusercontent.com/aida-public/AB6AXuCz5-btZGrNIhaaZRVnQUIlmzadm5SJPGeB5hivjKfii_66t7p-tFtudQW2vj8xm0_K3tulia5TTMapw_PMb6pchK9UaP7Id-ly6XArCUJdNWOaFFcP1KLOq5Q1C_zsTNFktpvnNss507af8hXJwX8DIIymEAb5LJARhREwz87Dn-3oyOjDuz3MOPJFp3gGJHNGQdST3S_FDx6Ain3wcw7bsP_9fPCCt83zYN8FW7RUDOrZ--2XCsvBtV3d9YmcLfycWyB8ObMJQD8';
 
     return Container(
       width: double.infinity,
       height: imageHeight,
       margin: EdgeInsets.symmetric(horizontal: isDesktop ? 0 : 8),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: AppTheme.surfaceGray,
+      ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
-        child: Image.network(
-          'https://lh3.googleusercontent.com/aida-public/AB6AXuCz5-btZGrNIhaaZRVnQUIlmzadm5SJPGeB5hivjKfii_66t7p-tFtudQW2vj8xm0_K3tulia5TTMapw_PMb6pchK9UaP7Id-ly6XArCUJdNWOaFFcP1KLOq5Q1C_zsTNFktpvnNss507af8hXJwX8DIIymEAb5LJARhREwz87Dn-3oyOjDuz3MOPJFp3gGJHNGQdST3S_FDx6Ain3wcw7bsP_9fPCCt83zYN8FW7RUDOrZ--2XCsvBtV3d9YmcLfycWyB8ObMJQD8',
-          fit: BoxFit.contain,
-          errorBuilder: (context, error, stackTrace) {
-            return Container(
-              color: AppTheme.surfaceGray,
-              child: const Center(
-                child: Icon(
-                  Icons.directions_car,
-                  size: 80,
-                  color: AppTheme.textGray,
+        child: CachedNetworkImage(
+          imageUrl: imageUrl,
+          fit: BoxFit.cover,
+          placeholder: (context, url) => Container(
+            color: AppTheme.surfaceGray,
+            child: Center(
+              child: CircularProgressIndicator(
+                valueColor: const AlwaysStoppedAnimation<Color>(
+                  AppTheme.electricBlue,
                 ),
               ),
-            );
-          },
+            ),
+          ),
+          errorWidget: (context, url, error) => Container(
+            color: AppTheme.surfaceGray,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.directions_car,
+                    size: 80,
+                    color: AppTheme.textGray.withOpacity(0.5),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    'Image unavailable',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: AppTheme.textGray.withOpacity(0.7),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -154,8 +180,8 @@ class OnboardingScreen extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           // Subtitle
-          SizedBox(
-            width: 300,
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: isDesktop ? 400 : 300),
             child: Text(
               'The premium marketplace for enthusiasts, collectors, and brands.',
               textAlign: TextAlign.center,
@@ -263,23 +289,39 @@ class OnboardingScreen extends StatelessWidget {
     );
   }
 
-  void _navigateToSignUp(BuildContext context) {
-    // TODO: Navigate to Sign Up screen
-    //move to login no debug print real logic
-    debugPrint('Navigate to Sign Up');
+  Future<void> _navigateToSignUp(BuildContext context) async {
+    Vibration.vibrate(duration: 50);
+    await Future.delayed(const Duration(milliseconds: 100));
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => AuthScreen()),
+      MaterialPageRoute(
+        builder: (context) => const AuthScreen(),
+        settings: const RouteSettings(name: '/auth'),
+      ),
     );
   }
 
-  void _navigateToLogin(BuildContext context) {
-    // TODO: Navigate to Login screen
-    debugPrint('Navigate to Login');
+  Future<void> _navigateToLogin(BuildContext context) async {
+    Vibration.vibrate(duration: 50);
+    await Future.delayed(const Duration(milliseconds: 100));
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const AuthScreen(),
+        settings: const RouteSettings(name: '/auth'),
+      ),
+    );
   }
 
-  void _navigateAsGuest(BuildContext context) {
-    // TODO: Navigate as Guest
-    debugPrint('Navigate as Guest');
+  Future<void> _navigateAsGuest(BuildContext context) async {
+    Vibration.vibrate(duration: 50);
+    await Future.delayed(const Duration(milliseconds: 100));
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const MainNavScreen(),
+        settings: const RouteSettings(name: '/main'),
+      ),
+    );
   }
 }

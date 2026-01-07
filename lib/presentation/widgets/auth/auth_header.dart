@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../../../core/theme/app_theme.dart';
 
 /// Premium Authentication Header with Hero Image
@@ -20,12 +21,28 @@ class AuthHeader extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           // Hero Image
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(imageUrl),
-                fit: BoxFit.cover,
-                alignment: Alignment.center,
+          CachedNetworkImage(
+            imageUrl: imageUrl,
+            fit: BoxFit.cover,
+            alignment: Alignment.center,
+            placeholder: (context, url) => Container(
+              color: AppTheme.surfaceGray,
+              child: Center(
+                child: CircularProgressIndicator(
+                  valueColor: const AlwaysStoppedAnimation<Color>(
+                    AppTheme.electricBlue,
+                  ),
+                ),
+              ),
+            ),
+            errorWidget: (context, url, error) => Container(
+              color: AppTheme.surfaceGray,
+              child: const Center(
+                child: Icon(
+                  Icons.directions_car,
+                  size: 60,
+                  color: AppTheme.textGray,
+                ),
               ),
             ),
           ),

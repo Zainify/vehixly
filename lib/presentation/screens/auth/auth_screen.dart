@@ -12,7 +12,6 @@ class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context);
-    final isDesktop = mq.size.width > 600;
     final headerHeight = 256.0; // h-64 equivalent
 
     return Scaffold(
@@ -83,8 +82,6 @@ class AuthScreen extends StatelessWidget {
         ),
       ),
     );
-
-    // ignore: dead_code
   }
 
   Widget _buildDivider() {
@@ -119,7 +116,15 @@ class AuthScreen extends StatelessWidget {
               WidgetSpan(
                 alignment: PlaceholderAlignment.middle,
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    // Could navigate to sign up screen if separate
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Sign up feature coming soon!'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  },
                   child: const Text(
                     'Create an Account',
                     style: TextStyle(
@@ -137,18 +142,25 @@ class AuthScreen extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _footerLink('Terms of Service'),
+            _footerLink(context, 'Terms of Service'),
             const SizedBox(width: 24),
-            _footerLink('Privacy Policy'),
+            _footerLink(context, 'Privacy Policy'),
           ],
         ),
       ],
     );
   }
 
-  Widget _footerLink(String text) {
+  Widget _footerLink(BuildContext context, String text) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('$text page coming soon!'),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      },
       child: Text(
         text,
         style: const TextStyle(fontSize: 12, color: Color(0xFF9ca3af)),

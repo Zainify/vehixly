@@ -3,46 +3,113 @@ import '../../../core/theme/app_theme.dart';
 
 /// Premium Social Authentication Buttons
 /// Features accurate SVG icons matching HTML design
-class SocialButtons extends StatelessWidget {
+class SocialButtons extends StatefulWidget {
   const SocialButtons({Key? key}) : super(key: key);
+
+  @override
+  State<SocialButtons> createState() => _SocialButtonsState();
+}
+
+class _SocialButtonsState extends State<SocialButtons> {
+  bool _isAppleLoading = false;
+  bool _isGoogleLoading = false;
 
   static const Color textPrimary = Color(0xFF111318);
   static const Color borderColor = Color(0xFFDBDFE6);
+
+  Future<void> _handleSocialLogin(String provider) async {
+    setState(() {
+      if (provider == 'apple') {
+        _isAppleLoading = true;
+      } else {
+        _isGoogleLoading = true;
+      }
+    });
+
+    // Simulate API call
+    await Future.delayed(const Duration(seconds: 1));
+
+    if (mounted) {
+      setState(() {
+        _isAppleLoading = false;
+        _isGoogleLoading = false;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('$provider sign in coming soon!'),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(child: _socialButton(_appleIcon(), 'Apple')),
+        Expanded(
+          child: _socialButton(
+            _appleIcon(),
+            'Apple',
+            _isAppleLoading,
+            () => _handleSocialLogin('apple'),
+          ),
+        ),
         const SizedBox(width: 12),
-        Expanded(child: _socialButton(_googleIcon(), 'Google')),
+        Expanded(
+          child: _socialButton(
+            _googleIcon(),
+            'Google',
+            _isGoogleLoading,
+            () => _handleSocialLogin('google'),
+          ),
+        ),
       ],
     );
   }
 
-  Widget _socialButton(Widget icon, String label) {
+  Widget _socialButton(
+    Widget icon,
+    String label,
+    bool isLoading,
+    VoidCallback onPressed,
+  ) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: isLoading ? null : onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: AppTheme.primaryWhite,
         foregroundColor: textPrimary,
+        disabledBackgroundColor: AppTheme.primaryWhite.withOpacity(0.7),
         elevation: 0,
         shadowColor: Colors.transparent,
         side: const BorderSide(color: borderColor, width: 1),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          icon,
-          const SizedBox(width: 8),
-          Text(
-            label,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-          ),
-        ],
-      ),
+      child: isLoading
+          ? const SizedBox(
+              height: 20,
+              width: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                valueColor: AlwaysStoppedAnimation<Color>(textPrimary),
+              ),
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                icon,
+                const SizedBox(width: 8),
+                Text(
+                  label,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
     );
   }
 
@@ -131,7 +198,6 @@ class GoogleIconPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final scale = size.width / 24;
-    final paint = Paint()..style = PaintingStyle.fill;
 
     // Google G logo paths with exact colors
     final gPaint = Paint()..color = const Color(0xFF4285F4);
