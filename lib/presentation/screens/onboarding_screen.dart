@@ -183,7 +183,7 @@ class OnboardingScreen extends StatelessWidget {
           ConstrainedBox(
             constraints: BoxConstraints(maxWidth: isDesktop ? 400 : 300),
             child: Text(
-              'The premium marketplace for enthusiasts, collectors, and brands.',
+              'The World No 1 marketplace for enthusiasts, collectors, and brands.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
