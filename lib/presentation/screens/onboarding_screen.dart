@@ -146,7 +146,7 @@ class OnboardingScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Image unavailable',
+                    'Image failed to load',
                     style: TextStyle(
                       fontSize: 14,
                       color: AppTheme.textGray.withOpacity(0.7),
