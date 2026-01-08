@@ -276,7 +276,7 @@ class OnboardingScreen extends StatelessWidget {
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
             child: Text(
-              'Browse as Guest',
+              'Continue as Guest',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
