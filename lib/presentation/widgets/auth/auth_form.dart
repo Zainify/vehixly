@@ -56,7 +56,7 @@ class _AuthFormState extends State<AuthForm> {
     }
 
     Vibration.vibrate(duration: 50);
-    
+
     setState(() {
       _isLoading = true;
       _emailError = null;
@@ -68,7 +68,7 @@ class _AuthFormState extends State<AuthForm> {
 
     if (mounted) {
       setState(() => _isLoading = false);
-      
+
       // Navigate to main screen on success
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
@@ -93,55 +93,55 @@ class _AuthFormState extends State<AuthForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-        // Logo tile - black background with shadow
-        Container(
-          width: 64,
-          height: 64,
-          decoration: BoxDecoration(
-            color: AppTheme.primaryBlack,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.12),
-                blurRadius: 20,
-                offset: const Offset(0, 6),
-              ),
-            ],
+          // Logo tile - black background with shadow
+          Container(
+            width: 64,
+            height: 64,
+            decoration: BoxDecoration(
+              color: AppTheme.primaryBlack,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.12),
+                  blurRadius: 20,
+                  offset: const Offset(0, 6),
+                ),
+              ],
+            ),
+            child: const Icon(
+              Icons.directions_car,
+              color: AppTheme.primaryWhite,
+              size: 32,
+            ),
           ),
-          child: const Icon(
-            Icons.directions_car,
-            color: AppTheme.primaryWhite,
-            size: 32,
-          ),
-        ),
-        const SizedBox(height: 24),
+          const SizedBox(height: 24),
 
-        // Main Headline
-        Text(
-          'Unlock the Ultimate Drive',
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: 32,
-            fontWeight: FontWeight.w800,
-            color: textPrimary,
-            height: 1.2,
-            letterSpacing: -0.02,
+          // Main Headline
+          Text(
+            'Unlock the Ultimate Drive',
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.w800,
+              color: textPrimary,
+              height: 1.2,
+              letterSpacing: -0.02,
+            ),
           ),
-        ),
-        const SizedBox(height: 12),
+          const SizedBox(height: 12),
 
-        // Subtitle
-        const Text(
-          'Sign in to access exclusive listings and community.',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-            color: textSecondary,
-            height: 1.5,
+          // Subtitle
+          const Text(
+            'Sign in to access exclusive listings and community.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              color: textSecondary,
+              height: 1.5,
+            ),
           ),
-        ),
-        const SizedBox(height: 32),
+          const SizedBox(height: 32),
 
           // Email Field
           _buildLabel('Email Address'),
@@ -187,7 +187,7 @@ class _AuthFormState extends State<AuthForm> {
             ],
           ),
 
-          // Forgot Password Link
+          // Forgot Password Link Comming soon
           Align(
             alignment: Alignment.centerRight,
             child: TextButton(
@@ -217,7 +217,7 @@ class _AuthFormState extends State<AuthForm> {
             ),
           ),
 
-        const SizedBox(height: 32),
+          const SizedBox(height: 32),
 
           // Primary Action Button
           SizedBox(
